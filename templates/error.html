@@ -1,0 +1,27 @@
+<html>
+    <body style="font-family:Trebuchet MS, Helvetica, sans-serif; background-color:#212121; color: #1DB954">
+        <style>
+        button {
+            font-family:Trebuchet MS, Helvetica, sans-serif; 
+            background-color:#1DB954; 
+            color: #212121; 
+            border-color: #1DB954; 
+            border-radius: 11%; 
+            font-weight: bold; 
+            width:auto;
+            height:auto;
+            font-size: 17px;
+            padding: 5px 9px 5px;
+      }
+    </style>     
+        <h2 style="text-align:center;">Error Occured</h2>
+        <h3>Press button to return to home page</h3>
+        <button id="home">Home</button>
+        <script>
+            document.getElementById("home").onclick=function(){
+                var URL="/home/{{token}}"
+                window.open(URL,"_self");
+                };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,117 @@
+<html>
+  <body style="font-family:Trebuchet MS, Helvetica, sans-serif; background-color:#212121; color: #1DB954">
+      <style>
+        button {
+              font-family:Trebuchet MS, Helvetica, sans-serif; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954; 
+              border-radius: 11%; 
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+              font-size: 17px;
+              padding: 5px 9px 5px;
+        }
+        input {
+              font-family:Trebuchet MS, Helvetica, sans-serif;
+              font-size: 16px; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954;  
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+        }
+        select {
+              font-family:Trebuchet MS, Helvetica, sans-serif;
+              font-size: 16px; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954;  
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+              text-align: center;
+        }
+      </style>
+    <button id="home">Home</button>
+    <br>
+    <br>
+    <img src="/static/Spotify_Logo_RGB_Green.png" width="275" height="100" style="display:block; margin-left:auto;margin-right:auto;">
+    <br>
+    <h2 style="text-align:center;">Searching For a Track</h2>
+    <br>
+    <hr color="#1DB954">
+    <h2>Search a song/track and/or artist to see a song's analytics!</h2>
+    <input type="search" id="search" value="{{query}}"> <button id='searchSub'>Seach</button>    
+    <br>
+    <hr color="#1DB954">
+    {%for song,info in songs.items()%}
+    <h4 style="font-size: 20px"><br>Name: {{song}}{{info["artists"]}}</h4>
+    <label for="{{loop.index}}">Number of recommended songs to show for this song:</label>
+    <select name="recom" id="recom{{loop.index}}">
+        {% for i in range(15)%}
+        <option value={{i+1}}>{{i+1}}</option>
+        {%endfor%}
+    </select>
+    <button onclick="submitting('{{loop.index}}')">Submit</button>
+    <br>
+    <p style="font-size: 16px">Danceability: {{info["analytics"]["dance"]}}</p>
+    <p style="font-size: 16px">Positivity/Happiness: {{info["analytics"]["positive"]}}</p>
+    <p style="font-size: 16px">Energy/Intensity: {{info["analytics"]["energy"]}}</p>
+    <p style="font-size: 16px">Tempo: {{info["analytics"]["tempo"]}}</p>
+    <p style="font-size: 16px">Time Signature: {{info["analytics"]["time"]}}</p>
+    <p style="font-size: 16px">Key: {{info["analytics"]["key"]}}</p>
+    <p style="font-size: 16px">Modality (Major/Minor): {{info["analytics"]["mode"]}}</p>
+    <input type="hidden" id="track{{loop.index}}" value="{{song}}">
+    <input type="hidden" id="artist{{loop.index}}" value="{{info['artists']}}">
+    <input type="hidden" id="trackID{{loop.index}}" value="{{info['trackID']}}">
+    <input type="hidden" id="artistID{{loop.index}}" value="{{info['artistID']}}">
+    {%endfor%}
+    <script>
+      document.getElementById("home").onclick=function(){
+          var URL="/home/"+"{{token}}";
+          window.open(URL,"_self");
+      };
+      document.getElementById("searchSub").onclick=function(){
+        var query=document.getElementById("search").value;
+        query=query.replace("/","-----");
+        query=query.replace("#","------");
+        query=query.replace("?","-------");
+        if(query!=""){
+        var URL="/search/"+"{{token}}"+"/"+query;
+        window.open(URL,"_self");
+        }
+      };
+      query=document.getElementById("search");
+      query.addEventListener("keydown", function(key){
+      if (key.code==="Enter"){
+          query=document.getElementById("search").value;
+          query=query.replace("/","-----");
+          query=query.replace("#","------");
+          query=query.replace("?","-------");
+          if(query!=""){
+          var URL="/search/"+"{{token}}"+"/"+query;
+          window.open(URL,"_self");
+          }
+        }
+      });
+      function submitting(index){
+        var name=document.getElementById('track'+String(index)).value;
+        name=name.replace("/","-----");
+        name=name.replace("#","------");
+        name=name.replace("?","-------");
+        var artists=document.getElementById('artist'+String(index)).value;
+        artists=artists.replace("/","-----");
+        artists=artists.replace("#","------");
+        artists=artists.replace("?","-------");
+        var trackID=document.getElementById('trackID'+String(index)).value;
+        var artistID=document.getElementById('artistID'+String(index)).value;
+        var recom=document.getElementById('recom'+String(index)).value;
+        var URL="/searchRecom/"+"{{token}}"+"/"+recom+"/"+name+"/"+artists+"/"+trackID+"/"+artistID;
+        window.open(URL,"_self");
+        };
+    </script> 
+  </body>
+</html>

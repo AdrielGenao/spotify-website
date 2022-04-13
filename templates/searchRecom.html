@@ -1,0 +1,37 @@
+<html>
+  <body style="font-family:Trebuchet MS, Helvetica, sans-serif; background-color:#212121; color: #1DB954">
+      <style>
+        button {
+              font-family:Trebuchet MS, Helvetica, sans-serif; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954; 
+              border-radius: 11%; 
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+              font-size: 17px;
+              padding: 5px 9px 5px;
+        }     
+      </style>
+    <button id="back">Back</button>
+    <br>
+    <br>
+    <img src="/static/Spotify_Logo_RGB_Green.png" width="275" height="100" style="display:block; margin-left:auto;margin-right:auto;">
+    <br>
+    <h2 style="text-align:center;">Searched Song w/ Recommended Songs</h2>
+    <br>
+    {%for song,reco in songs.items()%}
+      <h3><br>Searched song: {{song}}</h3>
+      <h4>Recommended Songs:</h4>
+      {%for name,artist in reco.items()%}
+        <p>{{loop.index}}. {{name}}{{artist}}</p>
+        {%endfor%}
+    {%endfor%}
+    <script>
+      document.getElementById("back").onclick=function(){
+          history.back();
+      };
+    </script> 
+  </body>
+</html>

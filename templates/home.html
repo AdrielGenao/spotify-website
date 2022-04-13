@@ -1,0 +1,115 @@
+<html>
+    <body style="font-family:Trebuchet MS, Helvetica, sans-serif; background-color:#212121; color: #1DB954">
+      <style>
+        select {
+              font-family:Trebuchet MS, Helvetica, sans-serif; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954;  
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+              text-align: center;
+        }
+        input {
+              font-family:Trebuchet MS, Helvetica, sans-serif;
+              font-size: 16px; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954;  
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+        }
+        button {
+              font-family:Trebuchet MS, Helvetica, sans-serif; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954; 
+              border-radius: 11%; 
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+              font-size: 17px;
+              padding: 5px 9px 5px;
+        }     
+      </style>
+        <button id="login">Logout</button>
+        <h1 style= "text-align: center;">Welcome to the Spotify Song-Analytics Website!</h1>
+        <h2 style= "text-align: center;">This website contains features to allow you to see analytics of both your top Spotify songs, and any song on Spotify! Choose any of the options below:</h2>
+        <br>
+        <h2>See your top songs as well as recommendations for each!</h2>
+        <label for="top">Number of top songs to show:</label>
+        <select name="top" id="top">
+            {% for i in range(20)%}
+            <option value={{i+1}}>{{i+1}}</option>
+            {%endfor%}
+        </select>
+        <br>
+        <label for="recom">Number of recommended songs for each top song:</label>
+        <select name="recom" id="recom">
+            {% for i in range(10)%}
+            <option value={{i+1}}>{{i+1}}</option>
+            {%endfor%}
+        </select>
+        <br>
+        <br>
+        <button id='reco'>Submit</button>
+        <br>
+        <hr color="#1DB954">
+        <h2>See the analytics/features, such as danceability and tempo, of your top songs!</h2>
+        <label for="analytics">Number of top songs to show:</label>
+        <select name="analytics" id="analytics">
+            {% for i in range(20)%}
+            <option value={{i+1}}>{{i+1}}</option>
+            {%endfor%}
+        </select>    
+        <br>
+        <br>
+        <button id='analyticsSub'>Submit</button>
+        <br>
+        <hr color="#1DB954">
+        <h2>Search a song/track and/or artist to see a song's analytics, or get recommendations!</h2>
+        <input type="search" id="search" placeholder="Type in song name here"> <button id='searchSub'>Search</button>       
+        <script>
+            document.getElementById("login").onclick=function(){
+                var URL="/"
+                window.open(URL,"_self");
+                };
+            document.getElementById("reco").onclick=function(){
+                var top=document.getElementById("top").value;
+                var recom=document.getElementById("recom").value;
+                var URL="/songs/"+"{{token}}"+"/"+top+"/"+recom;
+                window.open(URL,"_self");
+                };
+            document.getElementById("analyticsSub").onclick=function(){
+                    var analytics=document.getElementById("analytics").value;
+                    var URL="/analytics/"+"{{token}}"+"/"+analytics;
+                    window.open(URL,"_self");
+                };
+            document.getElementById("searchSub").onclick=function(){
+                    var query=String(document.getElementById("search").value);
+                    query=query.replace("/","-----");
+                    query=query.replace("#","------");
+                    query=query.replace("?","-------");
+                    if(query!=""){
+                    var URL="/search/"+"{{token}}"+"/"+query;
+                    window.open(URL,"_self");
+                    }
+                };
+            var enter=document.getElementById("search")
+            enter.addEventListener("keydown", function(key){
+                if (key.code==="Enter"){
+                    var query=String(document.getElementById("search").value);
+                    query=query.replace("/","-----");
+                    query=query.replace("#","------");
+                    query=query.replace("?","-------");
+                    if(query!=""){
+                    var URL="/search/"+"{{token}}"+"/"+query;
+                    window.open(URL,"_self");
+                    } 
+                }
+            });          
+        </script>    
+    </body>
+</html>
