@@ -1,0 +1,41 @@
+<html>
+  <body style="font-family:Trebuchet MS, Helvetica, sans-serif; background-color:#212121; color: #1DB954">
+      <style>
+        button {
+              font-family:Trebuchet MS, Helvetica, sans-serif; 
+              background-color:#1DB954; 
+              color: #212121; 
+              border-color: #1DB954; 
+              border-radius: 11%; 
+              font-weight: bold; 
+              width:auto;
+              height:auto;
+              font-size: 17px;
+              padding: 5px 9px 5px;
+        }     
+      </style>
+    <button id="home">Home</button>
+    <br>
+    <br>
+    <img src="/static/Spotify_Logo_RGB_Green.png" width="275" height="100" style="display:block; margin-left:auto;margin-right:auto;">
+    <br>
+    <h2 style="text-align:center;">Top-Listened-To Songs w/ Analytics/Features</h2>
+    <br>
+    {%for top,info in songs.items() %}
+    <h3><br>#{{loop.index}} top-listened-to song: {{top}}</h3>
+    <p>Danceability: {{info[0]}}</p>
+    <p>Positivity/Happiness: {{info[2]}}</p>
+    <p>Energy/Intensity: {{info[1]}}</p>
+    <p>Tempo: {{info[3]}}</p>
+    <p>Time Signature: {{info[4]}}</p>
+    <p>Key: {{info[5]}}</p>
+    <p>Modality (Major/Minor): {{info[6]}}</p>
+    {%endfor%}
+    <script>
+      document.getElementById("home").onclick=function(){
+          var URL="/home/"+"{{token}}";
+          window.open(URL,"_self");
+      };
+    </script> 
+  </body>
+</html>
